@@ -1,0 +1,444 @@
+﻿@model tokhaiyteProject.Models.ViewModels.EditToKhai
+@{
+    ViewData["Title"] = "Edit TỜ KHAI Y TẾ ĐỐI VỚI NGƯỜI NHẬP CẢNH";
+}
+@inject tokhaiyteDbContext context;
+
+<body style="padding: 0px; margin-bottom: 50px; background-color: rgb(234, 234, 234);">
+    <div class="tab-content" style="background: white; padding: 10px; border-left: 1px solid #ddd; border-right: 1px solid #ddd; border-bottom: 1px solid #ddd;">
+        <form asp-controller="Home" asp-action="Edit" method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+            <div class="row form-group">
+                <div class="col-3">
+                    <label asp-for="GateId">Cửa Khẩu <em>(*)</em></label>
+                </div>
+                <div>
+                    <span asp-validation-for="GateId" class="text-danger"></span>
+                    <select asp-for="GateId" class="form-control">
+                        <option>-Chọn-</option>
+                        @foreach (var item in context.Gates.ToList())
+                        {
+                            <option value="@item.id">@item.GateName</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-3">
+                    <label asp-for="FullName">Họ tên (ghi chữ IN HOA) <em>(*)</em></label>
+                </div>
+                <div>
+                    <span asp-validation-for="FullName" class="text-danger"></span>
+                    <input class="form-control inline-block full-width" asp-for="FullName" />
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-3">
+                    <label asp-for="BirthYear">
+                        Năm sinh <em>(*)</em>
+                    </label>
+                </div>
+                <div style="margin-right:50px">
+                    <span asp-validation-for="BirthYear" class="text-danger"></span>
+                    <select asp-for="BirthYear" class="form-control">
+                        <option>-Chọn-</option>
+                        @foreach (var item in context.Years.ToList())
+                        {
+                            <option value="@item.id">@item.year</option>
+                        }
+                    </select>
+                </div>
+
+                <div>
+                    <label asp-for="Gender">Giới tính <em>(*)</em></label>
+                </div>
+                <div style="margin-right:120px">
+                    <span asp-validation-for="Gender" class="text-danger"></span>
+                    <select asp-for="Gender" class="form-control inline-block form-inline error" asp-items="@Html.GetEnumSelectList<Gender>()">
+                        <option>-Chọn-</option>
+                    </select>
+                </div>
+                <div>
+                    <label asp-for="VietNam">Quốc Tịch <em>(*)</em></label>
+                </div>
+                <div>
+                    <select asp-for="VietNam" class="form-control">
+                        <option>Việt Nam</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-5">
+                    <label asp-for="HoChieu">
+                        Số hộ chiếu hoặc giấy thông hành hợp pháp khác <em>(*) </em>
+                    </label>
+                </div>
+                <div>
+                    <span asp-validation-for="HoChieu" class="text-danger"></span>
+                    <input class="form-control inline-block full-width" asp-for="HoChieu" />
+                </div>
+            </div>
+            <div class="row form-group">
+                <div style="margin-right: 20px">
+                    <label>
+                        Thông tin đi lại <em>(*)</em>
+                    </label>
+                </div>
+                <div style="margin-right: 20px">
+                    <label asp-for="tauBay">Tàu Bay</label>
+                    @*<input asp-for="tauBay" type="checkbox" name="name" value="false" style="margin-right:20px" />*@
+                    @Html.CheckBoxFor(model => model.tauBay, true)
+                </div>
+
+                <div style="margin-right: 20px">
+                    <label asp-for="tauThuyen">Tàu Thuyền</label>
+                    @Html.CheckBoxFor(model => model.tauThuyen, false)
+                </div>
+
+                <div style="margin-right: 20px">
+                    <label asp-for="oTo">Ô Tô</label>
+                    @Html.CheckBoxFor(model => model.oTo, false)
+                </div>
+                <div style="margin-right: 20px">
+                    <label asp-for="other">Khác (Ghi rõ):</label>
+                </div>
+            </div>
+            <div>
+                <textarea asp-for="other" style="margin: 0px 0px 15px; height: 69px; width: 1100px;"></textarea>
+            </div>
+            <div class="row form-group">
+                <div class="col-3">
+                    <label asp-for="Sohieu">
+                        Số hiệu phương tiện
+                    </label>
+                </div>
+                <div style="margin-right:50px">
+                    <span asp-validation-for="Sohieu" class="text-danger"></span>
+                    <input class="form-control inline-block full-width" asp-for="Sohieu" />
+                </div>
+
+                <div class="col-3">
+                    <label asp-for="SoGhet">Số Ghế </label>
+                </div>
+                <div style="margin-right:120px">
+                    <span asp-validation-for="SoGhet" class="text-danger"></span>
+                    <input class="form-control inline-block full-width" asp-for="SoGhet" />
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-3">
+                    <label>
+                        Ngày khởi hành <em>(*)</em>
+                    </label>
+                </div>
+                <div style="margin-right:70px" class="row form-group">
+                    <div class="row form-group" style="margin-right: 20px">
+                        <span asp-validation-for="startDay" class="text-danger"></span>
+                        <select asp-for="startDay" class="form-control">
+                            @foreach (var item in context.Dates.ToList())
+                            {
+                                <option value="@item.id">@item.day</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="row form-group" style="margin-right: 20px">
+                        <select asp-for="startMonth" class="form-control">
+                            <span asp-validation-for="startMonth" class="text-danger"></span>
+                            @foreach (var item in context.Months.ToList())
+                            {
+                                <option value="@item.id">@item.month</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="row form-group">
+                        <select asp-for="startYear" class="form-control">
+                            <span asp-validation-for="startYear" class="text-danger"></span>
+                            @foreach (var item in context.Years.ToList())
+                            {
+                                <option value="@item.id">@item.year</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div style="margin-right: 30px">
+                    <label>Ngày Nhập Cảnh <em>(*)</em></label>
+                </div>
+                <div style="margin-right:50px" class="row form-group">
+                    <div class="row form-group" style="margin-right: 20px">
+                        <select asp-for="entryDay" class="form-control">
+                            @foreach (var item in context.Dates.ToList())
+                            {
+                                <option value="@item.id">@item.day</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="row form-group" style="margin-right: 20px">
+                        <select asp-for="entryMonth" class="form-control">
+                            @foreach (var item in context.Months.ToList())
+                            {
+                                <option value="@item.id">@item.month</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="row form-group">
+                        <select asp-for="entryYear" class="form-control">
+                            @foreach (var item in context.Years.ToList())
+                            {
+                                <option value="@item.id">@item.year</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <label>Địa Điểm Khởi Hành (tỉnh/quốc gia)</label>
+            </div>
+            <div class="row form-group">
+                <div class="col-3">
+                    <label>
+                        Quốc gia/ Vùng lãnh thổ <em>(*)</em>
+                    </label>
+                </div>
+                <div style="margin-right:50px">
+                    <select asp-for="VietNam_s" class="form-control">
+                        <option>Việt Nam</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label>Tỉnh <em>(*)</em></label>
+                </div>
+                <div style="margin-right:120px">
+                    <span asp-validation-for="IdTinhs" class="text-danger"></span>
+                    <select asp-for="IdTinhs" class="form-control">
+                        <option>-Chọn-</option>
+                        @foreach (var item in context.Provinces.ToList())
+                        {
+                            <option value="@item.id">@item._name</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div>
+                <label>Địa điểm nơi đến (tỉnh/quốc gia)</label>
+            </div>
+            <div class="row form-group">
+                <div class="col-3">
+                    <label>
+                        Quốc gia/ Vùng lãnh thổ <em>(*)</em>
+                    </label>
+                </div>
+                <div style="margin-right:50px">
+                    <select asp-for="VietNam_e" class="form-control">
+                        <option>Việt Nam</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label>Tỉnh <em>(*)</em></label>
+                </div>
+                <div style="margin-right:120px">
+                    <select asp-for="IdTihhe" class="form-control">
+                        <option>-Chọn-</option>
+                        @foreach (var item in context.Provinces.ToList())
+                        {
+                            <option value="@item.id">@item._name</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div>
+                <label asp-for="denquocgia">Trong vòng 21 ngày qua, Anh/Chị có đến quốc gia/vùng lãnh thổ nào?<em>(*)</em></label>
+            </div>
+
+            <div>
+                <span asp-validation-for="denquocgia" class="text-danger"></span>
+                <input style="margin: 0px 0px 15px; height: 49px; width: 1100px;" asp-for="denquocgia" />
+            </div>
+            <div>
+                <label><strong>Địa chỉ liên lạc tại Việt Nam</strong></label>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-sm-4  col-xs-12 ">
+                    <label>Tỉnh Thành <em>(*)</em></label>
+                    <div class="form-group  ">
+                        <select asp-for="idProvince" asp-items="@(new SelectList(Model.Provinces, "id", "_name"))"
+                                class="custom-select" onchange="create.changeProvince(this.value)"></select>
+                    </div>
+                    @*<div class="form-group  ">
+                    <select asp-for="idProvince" asp-items="@(new SelectList(Model.Provinces, "id", "_name"))" class="custom-select" id="Province"></select>
+                </div>*@
+                    @*@Html.DropDownListFor(m =>
+                m.idProvince, new SelectList(context.Provinces.ToList(), "id", "_name"),
+                "Tỉnh/Thành phố", new { @class = "form-control", @id = "idProvince" })*@
+                </div>
+                <div class="col-4">
+                    <label>Quận/ huyện<em>(*)</em></label>
+                    <select asp-for="idDistrict" asp-items="@(new SelectList(Model.Districts, "id", "DistrictName"))"
+                            class="custom-select" onchange="create.changeDistrict(this.value)"></select>
+
+                    @*<select asp-for="idDistrict" asp-items="@(new SelectList(Model.Districts, "id", "DistrictName"))"
+                class="custom-select" id="District"></select>*@
+                    @*@Html.DropDownListFor(m =>
+                m.idDistrict, new SelectList(context.Districts.ToList(), "id", "_name"),
+                "quan", new { @class = "form-control", @id = "idDistrict" })*@
+
+                </div>
+                <div class="col-4">
+                    <label>Phường/ xã <em>(*)</em></label>
+                    <select asp-for="idWard" asp-items="@(new SelectList(Model.Wards, "id", "WardName"))" class="custom-select"></select>
+                    @*<select asp-for="idWard" asp-items="@(new SelectList(Model.Wards, "id", "WardName"))" class="custom-select" id="Ward"></select>*@
+
+                    @*@Html.DropDownListFor(m =>
+                m.idWard, new SelectList(context.Wards.ToList(), "id", "_name"),
+                "xa", new { @class = "form-control",@id="idWard" })*@
+                </div>
+            </div>
+            <div>
+                <label asp-for="Address">Địa chỉ nơi ở tại Việt Nam <em>(*)</em></label>
+                <span asp-validation-for="Address" class="text-danger"></span>
+                <input class="form-control inline-block full-width" asp-for="Address" />
+
+            </div>
+            <div>
+                <p>
+                    <i>Số điện thoại bạn sẽ sử dụng tại Việt Nam  (Là số Roaming hoặc số Việt Nam)</i>
+                </p>
+                <div class="row form-group">
+                    <div>
+
+                        <label asp-for="PhoneNumber">Điện Thoại <em>(*)</em></label>
+                    </div>
+                    <div>
+                        <input asp-for="PhoneNumber" class="form-control inline-block full-width" />
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+                    <div>
+                        <label asp-for="Email">Email <em>(*)</em></label>
+                    </div>
+                    <div>
+                        <input asp-for="Email" class="form-control inline-block full-width" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row form-group">
+                <label>
+                    <strong>
+                        Trong vòng 21 ngày (tính đến thời điểm làm thủ tục xuất cảnh, nhập cảnh, quá cảnh) Anh/Chị có thấy xuất hiện dấu hiệu nào sau đây không?
+                        <em>(*)</em>
+                    </strong>
+                </label>
+                <div class="cols-left full-width">
+                    <table>
+                        <theah>
+                            <tr>
+                                <th>Triệu Chứng</th>
+                                <th width="70" class="text-center">Có</th>
+                                <th width="70" class="text-center">Không</th>
+                            </tr>
+                        </theah>
+                        <tbody>
+                            <tr>
+                                <td>Sốt<span class="">(*)</span></td>
+                                <td class="text-center">@Html.RadioButtonFor(model => model.Sot, true)</td>
+                                <td class="text-center">@Html.RadioButtonFor(model => model.Sot, false)</td>
+                            </tr>
+                            <tr>
+                                <td>Ho<span class="">(*)</span></td>
+                                <td class="text-center">@Html.RadioButtonFor(model => model.Ho, true)</td>
+                                <td class="text-center">@Html.RadioButtonFor(model => model.Ho, false)</td>
+                            </tr>
+                            <tr>
+                                <td>Khó Thở<span class="">(*)</span></td>
+                                <td class="text-center">@Html.RadioButtonFor(model => model.Khotho, true)</td>
+                                <td class="text-center">@Html.RadioButtonFor(model => model.Khotho, false)</td>
+                            </tr>
+                            <tr>
+                                <td>Đau Họng<span class="">(*)</span></td>
+                                <td class="text-center">@Html.RadioButtonFor(model => model.Dauhong, true)</td>
+                                <td class="text-center">@Html.RadioButtonFor(model => model.Dauhong, false)</td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="cols-right full-width">
+                    <table>
+                        <theah>
+                            <tr>
+                                <th>Triệu Chứng</th>
+                                <th width="70" class="text-center">Có</th>
+                                <th width="70" class="text-center">Không</th>
+                            </tr>
+                        </theah>
+                        <tbody>
+                            <tr>
+                                <td>Nôn/ Buồn Nôn<span class="">(*)</span></td>
+                                <td class="text-center">@Html.RadioButtonFor(m => m.Non, true)</td>
+                                <td class="text-center">@Html.RadioButtonFor(model => model.Non, false)</td>
+                            </tr>
+                            <tr>
+                                <td>Tiêu Chảy<span class="">(*)</span></td>
+                                <td class="text-center">@Html.RadioButtonFor(model => model.Tieuchay, true)</td>
+                                <td class="text-center">@Html.RadioButtonFor(model => model.Tieuchay, false)</td>
+                            </tr>
+                            <tr>
+                                <td>Xuất Huyết Ngoài Da<span class="">(*)</span></td>
+                                <td class="text-center">@Html.RadioButtonFor(model => model.xuatHuyet, true)</td>
+                                <td class="text-center">@Html.RadioButtonFor(model => model.xuatHuyet, false)</td>
+                            </tr>
+                            <tr>
+                                <td>Nổi Ban Ngoài Da<span class="">(*)</span></td>
+                                <td class="text-center">@Html.RadioButtonFor(model => model.NoiBan, true)</td>
+                                <td class="text-center">@Html.RadioButtonFor(model => model.NoiBan, false)</td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div>
+                <label asp-for="vacxin">Danh sách vắc-xin hoặc sinh phẩm được sử dụng</label>
+                <span asp-validation-for="vacxin" class="text-danger"></span>
+                <input class="form-control inline-block full-width" asp-for="vacxin" />
+            </div>
+            <div>
+                <label><strong>Lịch sử phơi nhiễm: Trong vòng 21 ngày qua, Anh/Chị có <em>(*)</em></strong></label>
+                <table>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th width="70" class="text-center">Có</th>
+                            <th width="70" class="text-center">Không</th>
+                        </tr>
+
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Đến trang trại chăn nuôi / chợ buôn bán động vật sống / cơ sở giết mổ động vật / tiếp xúc động vật <em>(*)</em></td>
+                            <td class="text-center">@Html.RadioButtonFor(m => m.dongvat, true)</td>
+                            <td class="text-center">@Html.RadioButtonFor(m => m.dongvat, false)</td>
+                        </tr>
+                        <tr>
+                            <td>Tiếp xúc gần (< 2m) với người mắc bệnh viêm đường hô hấp do nCoV <em>(*)</em></td>
+                            <td class="text-center">@Html.RadioButtonFor(m => m.tiepxuc, true)</td>
+                            <td class="text-center">@Html.RadioButtonFor(m => m.tiepxuc, false)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="btn-submit-box text-center">
+                <button class="btn btn-success ">Update</button>
+                <a asp-controller="Home" asp-action="list" class="btn btn-primary">Hủy</a>
+            </div>
+        </form>
+    </div>
+</body>
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+@section Scripts{
+    <script src="~/js/JavaScript.js"></script>
+}

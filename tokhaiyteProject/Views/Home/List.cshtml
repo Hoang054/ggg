@@ -1,0 +1,99 @@
+﻿@model List<tokhaiyteProject.Models.ViewModels.ListToKhai>
+
+@{ViewBag.Title = "Danh Sách Tờ Khai";}
+@inject tokhaiyteDbContext context;
+<div>
+    <h1>Danh Sách Tờ Khai</h1>
+    <table class="table table-active">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Cửa Khẩu</th>
+                <th>Họ và tên</th>
+                <th>Năm Sinh</th>
+                <th>Giới Tính</th>
+                <th>Quốc Tịch</th>
+                <th>Số Hộ Chiếu</th>
+                <th>Di chuyển bằng tàu bay</th>
+                <th>Di chuyển bằng Tàu Thuyển</th>
+                <th>Di chuyển bằng Ô Tô</th>
+                <th>Di chuyển bằng phương tiện khác</th>
+                <th>Số Hiệu Phương tiện</th>
+                <th>Số Ghế</th>
+                <th>Ngày Khởi hành</th>
+                <th>Ngày Nhập Cảnh</th>
+                <th>Địa Điểm Khởi hành</th>
+                <th>Địa Điểm Nơi Đến</th>
+                <th>Di chuyển trong 24h</th>
+                <th>Tỉnh Thành</th>
+                <th>Quận/ Huyện</th>
+                <th>Phường Xã</th>
+                <th>Address</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Sốt</th>
+                <th>Ho</th>
+                <th>Khó Thở</th>
+                <th>Đau Họng</th>
+                <th>Nôn/ Buồn Nôn</th>
+                <th>Tiêu Chảy</th>
+                <th>Xuất Huyết Ngoài da</th>
+                <th>Nổi Ban</th>
+                <th>danh sách vacxin, sinh phẩm</th>
+                <th>Đến trang trại, tiếp xúc động vật</th>
+                <th>Tiếp xúc người bệnh hô hấp</th>
+                <th>Thao Tac</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.id</td>
+                    <td>@item.Gate</td>
+                    <td>@item.FullName</td>
+                    <td>@item.BirthYear</td>
+                    <td>@item.Gender</td>
+                    <td>@item.VietNam</td>
+                    <td>@item.HoChieu</td>
+                    <td>@item.tauBay</td>
+                    <td>@item.tauThuyen</td>
+                    <td>@item.oTo</td>
+                    <td>@item.other</td>
+                    <td>@item.Sohieu</td>
+                    <td>@item.SoGhet</td>
+                    <td>@item.startDay/@item.startMonth/@item.startYear</td>
+                    <td>@item.entryDay/@item.entryMonth/@item.entryYear</td>
+                    <td>@item.VietNam_s@item.Tinhs</td>
+                    <td>@item.VietNam_e/@item.Tihhe</td>
+                    <td>@item.denquocgia</td>
+                    <td>@item.Province</td>
+                    <td>@item.District</td>
+                    <td>@item.Ward</td>
+                    <td>@item.Address</td>
+                    <td>@item.PhoneNumber</td>
+                    <td>@item.Email</td>
+                    <td>@item.Sot</td>
+                    <td>@item.Ho</td>
+                    <td>@item.Khotho</td>
+                    <td>@item.Dauhong</td>
+                    <td>@item.Non</td>
+                    <td>@item.Tieuchay</td>
+                    <td>@item.xuatHuyet</td>
+                    <td>@item.NoiBan</td>
+                    <td>@item.vacxin</td>
+                    <td>@item.dongvat</td>
+                    <td>@item.tiepxuc</td>
+                    <td>
+                        <a href="javascript:void(0)" class="text-danger" onclick="toKhais.delete(@item.id)"><i class="fas fa-trash"></i></a>
+                        <a asp-controller="Home" asp-action="Edit" asp-route-id="@item.id" class="text-danger"><i class="fas fa-edit"></i></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@section scripts{
+    <script src="~/lib/bootbox.js/bootbox.js"></script>
+    <script src="~/js/list.js"></script>
+}
